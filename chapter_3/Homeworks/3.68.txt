@@ -1,0 +1,18 @@
+/*
+ * 家庭作业3.68
+ */
+ 
+# void setVal(str1 *p, str2 *q)
+# p in %rdi, q in %rsi
+
+1  setVal:
+2   movslq  8(%rsi), %rax
+3   addq    32(%rsi), %rax
+
+4   movq    %rax, 184(%rdi)
+5   ret
+
+# 由第4行可得 184/4 = 46, 所以 A*B = 46 或 45 (以8字节对齐);
+# 由第1行可得 B < 8;
+# 由第2行可得 24 < 8+8+A <= 32, 所以 8 < A <= 16;
+# 所以结果为 A = 9, B = 5.

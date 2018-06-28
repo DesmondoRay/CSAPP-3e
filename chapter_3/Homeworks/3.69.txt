@@ -1,0 +1,49 @@
+/*
+ * 家庭作业3.69
+ */
+ 
+typedef struct {
+  int first;
+  a_struct a[CNT];
+  int last;
+} b_struct;
+
+void test(long i, b_struct *bp) {
+  int n = bp->first + bp->last;
+  a_struct *ap = &bp->a[i];
+  ap->x[ap->idx] = n;
+}
+
+# void test(long i, b_struct *bp)
+# i in %rdi, bp in %rsi
+1   test:
+2    mov 0x120(%rsi), %ecx         # bp+0x120 fetch bp->last
+3    add (%rsi), %ecx              # bp->first + bp->last
+4    lea (%rdi,%rdi,4), %rax       # i*5
+5    lea (%rsi,%rax,8), %rax       # bp+i*40
+
+6    mov 0x8(%rax), %rdx
+7    movslq %ecx, %rcx
+8    mov %rcx, 0x10(%rax,%rdx,8)    
+9    retq
+    
+    
+A. CNT = 7;
+    第2行：last in %ecx = bp + 0x120 = bp + 288;
+    第3行：n = last + first, n in %ecx;
+    第4、5行：%rax = 40i + bp, 说明a_struct大小为 5*8;
+    由此可得 288 = 8 + CNT * 5*8; 第一个8字节为first的位置, 以8字节对齐;
+    所以得出 CNT = 7.
+    
+B. 
+typedef struct {
+    long idx;
+    long x[4];
+} a_struct;
+
+    第6行取出idx的值, 存储在%rdx, 位置为 8 + bp + 40i;
+    第7行将 n 转换为long类型, 所以 idx 的类型为 long;
+    第8行将 ap->x[ap->idx] 设置为 n;
+        %rax = 40i + bp;
+        %rax + 16 + 8 * idx; 其中16 = first的8字节 + idx的8字节;
+        由 8 * idx 可得, x的元素为long类型。
