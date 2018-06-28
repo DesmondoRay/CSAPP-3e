@@ -41,9 +41,8 @@ typedef struct {
     long x[4];
 } a_struct;
 
-    第6行取出idx的值, 存储在%rdx, 位置为 8 + bp + 40i;
-    第7行将 n 转换为long类型, 所以 idx 的类型为 long;
+    第6行取出idx的值, 存储在%rdx, 类型为long, 位置为 8 + bp + 40i;
+    第7行将 n 转换为long类型, 所以 x的元素为 long类型;
     第8行将 ap->x[ap->idx] 设置为 n;
         %rax = 40i + bp;
-        %rax + 16 + 8 * idx; 其中16 = first的8字节 + idx的8字节;
-        由 8 * idx 可得, x的元素为long类型。
+        %rax + 16 + 8 * idx; 其中16 = first的8字节 + idx的8字节。
