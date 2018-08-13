@@ -1,6 +1,6 @@
-## homework 4.52修改处见difference
+## homework 4.52
 - 修改 ../sim/seq/seq-full.hcl，如: 4.52-seq-full.hcl  
-- 修改处见difference
+- 修改处详见difference
 - 测试文件iaddq_test.ys，用YAS汇编后的为文件为iaddq_test.yo
 
 ### 文本版本测试
