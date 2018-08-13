@@ -1,0 +1,63 @@
+                            | /* bubble_sort.ys, Y86-64程序代码参考252页，图4.7。*/
+                            | 
+                            | # Execution begins at address 0
+0x000:                      |     .pos 0
+0x000: 30f40002000000000000 |     irmovq stack, %rsp
+0x00a: 803800000000000000   |     call main
+0x013: 00                   |     halt
+                            | 
+                            | # Array of 4 elements
+0x018:                      |     .align 8
+0x018:                      | array:
+0x018: 0300000000000000     |     .quad 0x0000000000000003
+0x020: 0100000000000000     |     .quad 0x0000000000000001
+0x028: 0400000000000000     |     .quad 0x0000000000000004
+0x030:                      | array_last:
+0x030: 0200000000000000     |     .quad 0x0000000000000002
+                            | 
+0x038:                      | main:
+0x038: 30f71800000000000000 |     irmovq array, %rdi
+0x042: 30f63000000000000000 |     irmovq array_last, %rsi
+0x04c: 805600000000000000   |     call bubble_sort
+0x055: 90                   |     ret
+                            | 
+                            | # void bubble_sort(long *data, long *data_last)
+                            | # data in %rdi, data_last in %rsi
+0x056:                      | bubble_sort:
+0x056: 30f80800000000000000 |     irmovq $8, %r8
+0x060: 70ba00000000000000   |     jmp test1
+0x069:                      | loop1:
+                            |     # i = data, i in %rax
+0x069: 2070                 |     rrmovq %rdi, %rax
+0x06b:                      | test2:
+                            |     # i < last
+0x06b: 2069                 |     rrmovq %rsi, %r9
+0x06d: 6109                 |     subq %rax, %r9
+0x06f: 71b800000000000000   |     jle update1
+0x078:                      | loop2:
+                            |     # *(i+1) in %r9
+0x078: 50900800000000000000 |     mrmovq 8(%rax), %r9
+                            |     # *(i+1) < *i
+0x082: 50a00000000000000000 |     mrmovq (%rax), %r10
+0x08c: 209b                 |     rrmovq %r9, %r11
+0x08e: 61ab                 |     subq %r10, %r11
+0x090: 75ad00000000000000   |     jge update2
+0x099: 40a00800000000000000 |     rmmovq %r10, 8(%rax)
+0x0a3: 40900000000000000000 |     rmmovq %r9, (%rax)
+0x0ad:                      | update2:
+                            |     # i++
+0x0ad: 6080                 |     addq %r8, %rax
+0x0af: 706b00000000000000   |     jmp test2
+0x0b8:                      | update1:
+                            |     # last--
+0x0b8: 6186                 |     subq %r8, %rsi
+0x0ba:                      | test1:
+                            |     # last > data
+0x0ba: 2069                 |     rrmovq %rsi, %r9
+0x0bc: 6179                 |     subq %rdi, %r9
+0x0be: 766900000000000000   |     jg loop1
+0x0c7: 90                   |     ret
+                            | 
+                            | # Stack starts here and grows to lower addresses
+0x200:                      |     .pos 0x200
+0x200:                      | stack:
