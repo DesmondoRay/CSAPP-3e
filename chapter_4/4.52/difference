@@ -1,0 +1,33 @@
+ubuntu:~/Documents/CSAPP/chapter_4/4.47$ diff 4.52-seq-full.hcl ../sim/seq/seq-full.hcl
+109c109
+< 	       IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IIADDQ };
+---
+> 	       IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ };
+114c114
+< 		     IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ };
+---
+> 		     IIRMOVQ, IRMMOVQ, IMRMOVQ };
+118c118
+< 	icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL, IIADDQ };
+---
+> 	icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL };
+131c131
+< 	icode in { IOPQ, IRMMOVQ, IMRMOVQ, IIADDQ  } : rB;
+---
+> 	icode in { IOPQ, IRMMOVQ, IMRMOVQ  } : rB;
+139c139
+< 	icode in { IIRMOVQ, IOPQ, IIADDQ} : rB;
+---
+> 	icode in { IIRMOVQ, IOPQ} : rB;
+155c155
+< 	icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ } : valC;
+---
+> 	icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ } : valC;
+164c164
+< 		      IPUSHQ, IRET, IPOPQ, IIADDQ } : valB;
+---
+> 		      IPUSHQ, IRET, IPOPQ } : valB;
+176c176
+< bool set_cc = icode in { IOPQ, IIADDQ };
+---
+> bool set_cc = icode in { IOPQ };
