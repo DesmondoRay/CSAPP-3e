@@ -1,3 +1,8 @@
+## homework 4.52修改处见difference
+- 修改 ../sim/seq/seq-full.hcl，如: 4.52-seq-full.hcl  
+- 修改处见difference
+- 测试文件iaddq_test.ys，用YAS汇编后的为文件为iaddq_test.yo
+
 ### 文本版本测试
 ```
 ubuntu:~/Documents/CSAPP/chapter_4/4.47$ ../sim/misc/yas iaddq_test.ys
