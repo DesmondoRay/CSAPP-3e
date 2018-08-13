@@ -29,3 +29,5 @@ ubuntu:~/Documents/CSAPP/chapter_4/sim/seq$ make ssim VERSION=full
 终端输入命令：  
 ```ubuntu:~/Documents/CSAPP/chapter_4/sim/seq$ ./ssim -g ../../4.52/iaddq_test.yo```
 可打开GUI界面，运行后得到测试结果  
+![Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.52/Processor.png)  
+![Memory Contents](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.52/Memory%20Contents.png)  
