@@ -1,7 +1,7 @@
 ### 来源：  
-[Student Site](http://csapp.cs.cmu.edu/3e/students.html)  
+[Computer Systems: A Programmer's Perspective, 3/E (CS:APP3e)/Student Site](http://csapp.cs.cmu.edu/3e/students.html)  
 
-[下载链接: Chapter 4: Processor Architecture: Source distribution](http://csapp.cs.cmu.edu/3e/sim.tar)  
+[下载链接: Chapter 4: Processor Architecture/Source distribution](http://csapp.cs.cmu.edu/3e/sim.tar)  
 
 ### 注意事项：  
 安装Tcl和Tk: ```sudo apt-get install tcl8.5-dev tk8.5-dev tcl8.5 tk8.5```  
