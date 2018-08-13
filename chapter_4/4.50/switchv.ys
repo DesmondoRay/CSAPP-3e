@@ -1,0 +1,101 @@
+/* homework 4.50, switchv */
+
+# Execution begins at address 0
+	.pos 0
+	irmovq stack, %rsp
+	call main
+	halt
+
+# Array of 4 elements
+	.align 8
+array:
+	.quad 0x0000000000000000
+	.quad 0x0000000000000000
+	.quad 0x0000000000000000
+	.quad 0x0000000000000000
+	.quad 0x0000000000000000
+
+# switch table
+	.align 8
+table:
+	.quad L0 # idx == 0
+	.quad L1 # idx == 1
+	.quad L2 # idx == 2
+	.quad L3 # idx == 3
+	.quad L4 # idx == 4
+	.quad L5 # idx == 5
+	
+# long switchv(long idx)
+# idx in %rdi
+switchv:
+	# long result = 0
+	irmovq $0, %rax
+	irmovq $8, %r8
+	irmovq $1, %r9
+	irmovq table, %rsi
+	# idx > 5
+	irmovq $5, %r10
+	rrmovq %rdi, %r11
+	subq %r10, %r11
+	jg default
+	# idx < 0
+	rrmovq %rdi, %r11
+	andq %r11, %r11
+	jl default 
+# idx * 8
+compute:
+	andq %rdi, %rdi
+	je goto_address
+	addq %r8, %rsi
+	subq %r9, %rdi
+	jmp compute
+goto_address:
+	mrmovq (%rsi), %rdi
+	pushq %rdi
+	ret
+L0:
+	irmovq $0xaaa, %rax
+	ret
+L1:
+	jmp default
+L2:
+	irmovq $0xbbb, %rax
+	ret
+L3:
+	irmovq $0xccc, %rax
+	ret
+L4:
+	jmp default
+L5: 
+	jmp L2
+default:
+	irmovq $0xddd, %rax
+	ret
+
+main:
+	irmovq $8, %r12
+	irmovq array, %rdx
+	# idx = 0
+	irmovq $0, %rdi
+	call switchv
+	rmmovq %rax, (%rdx)
+	addq %r12, %rdx
+	# idx = 1
+	irmovq $1, %rdi
+	call switchv
+	rmmovq %rax, (%rdx)
+	addq %r12, %rdx
+	# idx = 2
+	irmovq $2, %rdi
+	call switchv
+	rmmovq %rax, (%rdx)
+	addq %r12, %rdx
+	# idx = 3
+	irmovq $3, %rdi
+	call switchv
+	rmmovq %rax, (%rdx)
+	ret
+	
+# Stack starts here and grows to lower addresses
+    .pos 0x200
+stack:

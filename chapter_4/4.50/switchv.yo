@@ -1,0 +1,101 @@
+                            | /* homework 4.49, switchv */
+                            | 
+                            | # Execution begins at address 0
+0x000:                      | 	.pos 0
+0x000: 30f40002000000000000 | 	irmovq stack, %rsp
+0x00a: 802801000000000000   | 	call main
+0x013: 00                   | 	halt
+                            | 
+                            | # Array of 4 elements
+0x018:                      | 	.align 8
+0x018:                      | array:
+0x018: 0000000000000000     | 	.quad 0x0000000000000000
+0x020: 0000000000000000     | 	.quad 0x0000000000000000
+0x028: 0000000000000000     | 	.quad 0x0000000000000000
+0x030: 0000000000000000     | 	.quad 0x0000000000000000
+0x038: 0000000000000000     | 	.quad 0x0000000000000000
+                            | 
+                            | # switch table
+0x040:                      | 	.align 8
+0x040:                      | table:
+0x040: e100000000000000     | 	.quad L0 # idx == 0
+0x048: ec00000000000000     | 	.quad L1 # idx == 1
+0x050: f500000000000000     | 	.quad L2 # idx == 2
+0x058: 0001000000000000     | 	.quad L3 # idx == 3
+0x060: 0b01000000000000     | 	.quad L4 # idx == 4
+0x068: 1401000000000000     | 	.quad L5 # idx == 5
+                            | 	
+                            | # long switchv(long idx)
+                            | # idx in %rdi
+0x070:                      | switchv:
+                            | 	# long result = 0
+0x070: 30f00000000000000000 | 	irmovq $0, %rax
+0x07a: 30f80800000000000000 | 	irmovq $8, %r8
+0x084: 30f90100000000000000 | 	irmovq $1, %r9
+0x08e: 30f64000000000000000 | 	irmovq table, %rsi
+                            | 	# idx > 5
+0x098: 30fa0500000000000000 | 	irmovq $5, %r10
+0x0a2: 207b                 | 	rrmovq %rdi, %r11
+0x0a4: 61ab                 | 	subq %r10, %r11
+0x0a6: 761d01000000000000   | 	jg default
+                            | 	# idx < 0
+0x0af: 207b                 | 	rrmovq %rdi, %r11
+0x0b1: 62bb                 | 	andq %r11, %r11
+0x0b3: 721d01000000000000   | 	jl default 
+                            | # idx * 8
+0x0bc:                      | compute:
+0x0bc: 6277                 | 	andq %rdi, %rdi
+0x0be: 73d400000000000000   | 	je goto_address
+0x0c7: 6086                 | 	addq %r8, %rsi
+0x0c9: 6197                 | 	subq %r9, %rdi
+0x0cb: 70bc00000000000000   | 	jmp compute
+0x0d4:                      | goto_address:
+0x0d4: 50760000000000000000 | 	mrmovq (%rsi), %rdi
+0x0de: a07f                 | 	pushq %rdi
+0x0e0: 90                   | 	ret
+0x0e1:                      | L0:
+0x0e1: 30f0aa0a000000000000 | 	irmovq $0xaaa, %rax
+0x0eb: 90                   | 	ret
+0x0ec:                      | L1:
+0x0ec: 701d01000000000000   | 	jmp default
+0x0f5:                      | L2:
+0x0f5: 30f0bb0b000000000000 | 	irmovq $0xbbb, %rax
+0x0ff: 90                   | 	ret
+0x100:                      | L3:
+0x100: 30f0cc0c000000000000 | 	irmovq $0xccc, %rax
+0x10a: 90                   | 	ret
+0x10b:                      | L4:
+0x10b: 701d01000000000000   | 	jmp default
+0x114:                      | L5: 
+0x114: 70f500000000000000   | 	jmp L2
+0x11d:                      | default:
+0x11d: 30f0dd0d000000000000 | 	irmovq $0xddd, %rax
+0x127: 90                   | 	ret
+                            | 
+0x128:                      | main:
+0x128: 30fc0800000000000000 | 	irmovq $8, %r12
+0x132: 30f21800000000000000 | 	irmovq array, %rdx
+                            | 	# idx = 0
+0x13c: 30f70000000000000000 | 	irmovq $0, %rdi
+0x146: 807000000000000000   | 	call switchv
+0x14f: 40020000000000000000 | 	rmmovq %rax, (%rdx)
+0x159: 60c2                 | 	addq %r12, %rdx
+                            | 	# idx = 1
+0x15b: 30f70100000000000000 | 	irmovq $1, %rdi
+0x165: 807000000000000000   | 	call switchv
+0x16e: 40020000000000000000 | 	rmmovq %rax, (%rdx)
+0x178: 60c2                 | 	addq %r12, %rdx
+                            | 	# idx = 2
+0x17a: 30f70200000000000000 | 	irmovq $2, %rdi
+0x184: 807000000000000000   | 	call switchv
+0x18d: 40020000000000000000 | 	rmmovq %rax, (%rdx)
+0x197: 60c2                 | 	addq %r12, %rdx
+                            | 	# idx = 3
+0x199: 30f70300000000000000 | 	irmovq $3, %rdi
+0x1a3: 807000000000000000   | 	call switchv
+0x1ac: 40020000000000000000 | 	rmmovq %rax, (%rdx)
+0x1b6: 90                   | 	ret
+                            | 	
+                            | # Stack starts here and grows to lower addresses
+0x200:                      |     .pos 0x200
+0x200:                      | stack:
