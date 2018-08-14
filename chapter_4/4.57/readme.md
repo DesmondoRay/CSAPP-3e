@@ -1,8 +1,8 @@
 ## homework 4.57
 - 修改 ../sim/pipe/pipe-btfnt.hcl，如: 4.57-pipe-lf.hcl  
 - 修改处详见difference
-- 测试文件使用pipe-lf-test.ys, 用YAS汇编后的为文件为pipe-lf-test.yo
-```ubuntu:~/Documents/CSAPP/chapter_4/4.47$ ../sim/misc/yas pipe-lf-test.ys```
+- 测试文件使用pipe-lf-test.ys, 用YAS汇编后的为文件为pipe-lf-test.yo  
+```ubuntu:~/Documents/CSAPP/chapter_4/4.57$ ../sim/misc/yas pipe-lf-test.ys```
 
 ### 重新生成pipe模拟器
 将homework 4.57 的pipe-lf.hcl放入../sim/pipe文件夹内，修改Makefile  
