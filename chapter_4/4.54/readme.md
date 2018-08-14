@@ -18,5 +18,5 @@ ubuntu:~/Documents/CSAPP/chapter_4/sim/pipe$ make psim VERSION=full
 终端输入命令：  
 ```ubuntu:~/Documents/CSAPP/chapter_4/sim/pipe$ ./psim -g ../../4.52/iaddq_test.yo```  
 可打开GUI界面，运行后得到测试结果:
-![Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.54Processor.png)
+![Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.54/Processor.png)
 ![Memory Contents](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.54/Memory%20Contents.png)
