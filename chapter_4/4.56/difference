@@ -1,0 +1,27 @@
+ubuntu:~/Documents/CSAPP/chapter_4/4.56$ diff 4.56-pipe-btfnt.hcl ../sim/pipe/backup/pipe-btfnt.hcl
+142,143c142
+< 	M_icode == IJXX && M_ifun != UNCOND && M_valE < M_valA && !M_Cnd : M_valA;
+< 	M_icode == IJXX && M_ifun != UNCOND && M_valE >= M_valA && M_Cnd : M_valE;
+---
+> 	M_icode == IJXX && !M_Cnd : M_valA;
+187,188d185
+< 	f_icode == IJXX && f_ifun != UNCOND && f_valC < f_valP : f_valC;
+< 	f_icode == IJXX && f_ifun != UNCOND && f_valC >= f_valP : f_valP;
+253c250
+< 	E_icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX } : E_valC;
+---
+> 	E_icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ } : E_valC;
+263c260
+< 	E_icode in { IRRMOVQ, IIRMOVQ, IJXX } : 0;
+---
+> 	E_icode in { IRRMOVQ, IIRMOVQ } : 0;
+349,350c346
+< 	((E_icode == IJXX && E_ifun != UNCOND && E_valC < E_valA && !e_Cnd) ||
+< 	 (E_icode == IJXX && E_ifun != UNCOND && E_valC >= E_valA && e_Cnd)) ||
+---
+> 	(E_icode == IJXX && !e_Cnd) ||
+362,363c358
+< 	((E_icode == IJXX && E_ifun != UNCOND && E_valC < E_valA && !e_Cnd) ||
+< 	 (E_icode == IJXX && E_ifun != UNCOND && E_valC >= E_valA && e_Cnd)) ||
+---
+> 	(E_icode == IJXX && !e_Cnd) ||
