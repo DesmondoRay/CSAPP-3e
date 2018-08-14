@@ -1,0 +1,22 @@
+ubuntu:~/Documents/CSAPP/chapter_4/4.55$ diff 4.55-pipe-nt.hcl ../sim/pipe/backup/pipe-nt.hcl
+142c142
+< 	M_icode == IJXX && M_ifun != UNCOND && M_Cnd : M_valA;
+---
+> 	M_icode == IJXX && !M_Cnd : M_valA;
+186d185
+< 	f_icode == IJXX && f_ifun != UNCOND : f_valP;
+277,280c276
+< word e_valA = [
+< 	E_icode == IJXX && E_ifun != UNCOND : E_valC;
+< 	1 : E_valA;    # Pass valA through stage
+< ];
+---
+> word e_valA = E_valA;    # Pass valA through stage
+350c346
+< 	(E_icode == IJXX && E_ifun != UNCOND && e_Cnd) ||
+---
+> 	(E_icode == IJXX && !e_Cnd) ||
+361c357
+< 	(E_icode == IJXX && E_ifun != UNCOND && e_Cnd) ||
+---
+> 	(E_icode == IJXX && !e_Cnd) ||
