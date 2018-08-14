@@ -20,8 +20,8 @@ ubuntu:~/Documents/CSAPP/chapter_4/sim/pipe$ ./psim -g ../../4.57/pipe-lf-test.y
 ```  
 可打开GUI界面，运行后得到测试结果:
 
-#### pipe-btfnt-Processor  
-![pipe-nt-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.57/pipe-lf-Processor.png)  
+#### pipe-lf-Processor  
+![pipe-lf-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.57/pipe-lf-Processor.png)  
 
 #### pipe-std-Processor（原版pipe模拟器）  
-![pipe-nt-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.57/pipe-std-Processor.png)
+![pipe-lf-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.57/pipe-std-Processor.png)
