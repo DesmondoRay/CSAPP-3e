@@ -1,7 +1,7 @@
 ## homework 4.55
 - 修改 ../sim/pipe/pipe-nt.hcl，如: 4.55-pipe-nt.hcl  
 - 修改处详见difference
-- 测试文件使用pipe-nt-test.ys, 用YAS汇编后的为文件为iaddq_test.yo
+- 测试文件使用pipe-nt-test.ys, 用YAS汇编后的为文件为pipe-nt-test.yo
 
 ### 重新生成pipe模拟器
 将homework 4.55 的pipe-nt.hcl放入../sim/pipe文件夹内，修改Makefile  
