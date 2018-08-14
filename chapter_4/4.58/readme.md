@@ -26,4 +26,4 @@ ubuntu:~/Documents/CSAPP/chapter_4/sim/pipe$ ./psim -g ../../4.58/pipe-1w-test.y
 
 #### pipe-std-Processor（原版pipe模拟器）  
 ![pipe-std-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.58/pipe-std-Processor.png)
-![pipe-1w-Memory-Contents](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.58/pipe-std-Memory-Contents.png)  
+![pipe-std-Memory-Contents](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.58/pipe-std-Memory-Contents.png)  
