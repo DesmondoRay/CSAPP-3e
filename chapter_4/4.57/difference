@@ -1,0 +1,25 @@
+desmondo@Rays:~/Documents/CSAPP/chapter_4/4.57$ diff 4.57-pipe-lf.hcl ../sim/pipe/backup/pipe-lf.hcl
+274d273
+< 	E_icode in { IRRMOVQ, IPUSHQ } && E_srcA == M_dstM : m_valM;
+333,334c332
+< 	E_icode in { IMRMOVQ, IPOPQ } && 
+< 	( E_dstM == d_srcB || (E_dstM == d_srcA && !(D_icode in { IRMMOVQ, IPUSHQ }))) ||
+---
+> 	0 ||
+343,344c341
+< 	E_icode in { IMRMOVQ, IPOPQ } &&
+< 	(E_dstM == d_srcB || (E_dstM == d_srcA && !(D_icode in { IRMMOVQ, IPUSHQ })));
+---
+> 	0; 
+351,353c348,349
+< 	!(E_icode in { IMRMOVQ, IPOPQ } &&
+< 	(E_dstM == d_srcB || (E_dstM == d_srcA && !(D_icode in {IRMMOVQ, IPUSHQ })))) &&
+< 	IRET in { D_icode, E_icode, M_icode };
+---
+> 	!(E_icode in { IMRMOVQ, IPOPQ } && E_dstM in { d_srcA, d_srcB }) &&
+> 	  IRET in { D_icode, E_icode, M_icode };
+363,364c359
+< 	E_icode in { IMRMOVQ, IPOPQ } &&
+<     (E_dstM == d_srcB || (E_dstM == d_srcA && !(D_icode in { IRMMOVQ, IPUSHQ })));
+---
+> 	0;
