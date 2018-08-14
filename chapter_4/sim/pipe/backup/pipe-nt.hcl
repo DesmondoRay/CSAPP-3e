@@ -5,9 +5,9 @@
 ####################################################################
 
 ## Your task is to modify the design so that conditional branches are
-## predicted as being taken when backward and not-taken when forward
-## The code here is nearly identical to that for the normal pipeline.  
-## Comments starting with keyword "BBTFNT" have been added at places
+## predicted as being not-taken.  The code here is nearly identical
+## to that for the normal pipeline.  
+## Comments starting with keyword "BNT" have been added at places
 ## relevant to the exercise.
 
 ####################################################################
@@ -49,7 +49,7 @@ wordsig RNONE    'REG_NONE'   	     # Special value indicating "no register"
 
 ##### ALU Functions referenced explicitly ##########################
 wordsig ALUADD	'A_ADD'		     # ALU should add its arguments
-## BBTFNT: For modified branch prediction, need to distinguish
+## BNT: For modified branch prediction, need to distinguish
 ## conditional vs. unconditional branches
 ##### Jump conditions referenced explicitly
 wordsig UNCOND 'C_YES'       	     # Unconditional transfer
@@ -139,8 +139,7 @@ wordsig W_valM  'mem_wb_curr->valm'	# Memory M value
 ## What address should instruction be fetched at
 word f_pc = [
 	# Mispredicted branch.  Fetch at incremented PC
-	M_icode == IJXX && M_ifun != UNCOND && M_valE < M_valA && !M_Cnd : M_valA;
-	M_icode == IJXX && M_ifun != UNCOND && M_valE >= M_valA && M_Cnd : M_valE;
+	M_icode == IJXX && !M_Cnd : M_valA;
 	# Completion of RET instruction
 	W_icode == IRET : W_valM;
 	# Default: Use predicted value of PC
@@ -183,9 +182,7 @@ bool need_valC =
 
 # Predict next value of PC
 word f_predPC = [
-	# BBTFNT: This is where you'll change the branch prediction rule
-	f_icode == IJXX && f_ifun != UNCOND && f_valC < f_valP : f_valC;
-	f_icode == IJXX && f_ifun != UNCOND && f_valC >= f_valP : f_valP;
+	# BNT: This is where you'll change the branch prediction rule
 	f_icode in { IJXX, ICALL } : f_valC;
 	1 : f_valP;
 ];
@@ -243,14 +240,14 @@ word d_valB = [
 
 ################ Execute Stage #####################################
 
-# BBTFNT: When some branches are predicted as not-taken, you need some
+# BNT: When some branches are predicted as not-taken, you need some
 # way to get valC into pipeline register M, so that
 # you can correct for a mispredicted branch.
 
 ## Select input A to ALU
 word aluA = [
 	E_icode in { IRRMOVQ, IOPQ } : E_valA;
-	E_icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX } : E_valC;
+	E_icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ } : E_valC;
 	E_icode in { ICALL, IPUSHQ } : -8;
 	E_icode in { IRET, IPOPQ } : 8;
 	# Other instructions don't need ALU
@@ -260,7 +257,7 @@ word aluA = [
 word aluB = [
 	E_icode in { IRMMOVQ, IMRMOVQ, IOPQ, ICALL, 
 		     IPUSHQ, IRET, IPOPQ } : E_valB;
-	E_icode in { IRRMOVQ, IIRMOVQ, IJXX } : 0;
+	E_icode in { IRRMOVQ, IIRMOVQ } : 0;
 	# Other instructions don't need ALU
 ];
 
@@ -346,9 +343,7 @@ bool D_stall =
 
 bool D_bubble =
 	# Mispredicted branch
-	((E_icode == IJXX && E_ifun != UNCOND && E_valC < E_valA && !e_Cnd) ||
-	 (E_icode == IJXX && E_ifun != UNCOND && E_valC >= E_valA && e_Cnd)) ||
-	# BBTFNT: This condition will change
+	(E_icode == IJXX && !e_Cnd) ||
 	# Stalling at fetch while ret passes through pipeline
 	# but not condition for a load/use hazard
 	!(E_icode in { IMRMOVQ, IPOPQ } && E_dstM in { d_srcA, d_srcB }) &&
@@ -359,9 +354,7 @@ bool D_bubble =
 bool E_stall = 0;
 bool E_bubble =
 	# Mispredicted branch
-	((E_icode == IJXX && E_ifun != UNCOND && E_valC < E_valA && !e_Cnd) ||
-	 (E_icode == IJXX && E_ifun != UNCOND && E_valC >= E_valA && e_Cnd)) ||
-	# BBTFNT: This condition will change
+	(E_icode == IJXX && !e_Cnd) ||
 	# Conditions for a load/use hazard
 	E_icode in { IMRMOVQ, IPOPQ } &&
 	 E_dstM in { d_srcA, d_srcB};
