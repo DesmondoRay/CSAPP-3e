@@ -1,0 +1,33 @@
+ubuntu:~/Documents/CSAPP/chapter_4/4.54$ diff 4.54-pipe-full.hcl ../sim/pipe/backup/pipe-full.hcl
+161c161
+< 	  IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IIADDQ };
+---
+> 	  IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ };
+174c174
+< 		     IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ };
+---
+> 		     IIRMOVQ, IRMMOVQ, IMRMOVQ };
+178c178
+< 	f_icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL, IIADDQ };
+---
+> 	f_icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IJXX, ICALL };
+198c198
+< 	D_icode in { IOPQ, IRMMOVQ, IMRMOVQ, IIADDQ  } : D_rB;
+---
+> 	D_icode in { IOPQ, IRMMOVQ, IMRMOVQ  } : D_rB;
+205c205
+< 	D_icode in { IRRMOVQ, IIRMOVQ, IOPQ, IIADDQ} : D_rB;
+---
+> 	D_icode in { IRRMOVQ, IIRMOVQ, IOPQ} : D_rB;
+242c242
+< 	E_icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ, IIADDQ } : E_valC;
+---
+> 	E_icode in { IIRMOVQ, IRMMOVQ, IMRMOVQ } : E_valC;
+251c251
+< 		     IPUSHQ, IRET, IPOPQ, IIADDQ } : E_valB;
+---
+> 		     IPUSHQ, IRET, IPOPQ } : E_valB;
+263c263
+< bool set_cc = E_icode in {IOPQ, IIADDQ } &&	
+---
+> bool set_cc = E_icode == IOPQ &&
