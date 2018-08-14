@@ -1,0 +1,29 @@
+# Execution begins at address 0 
+	.pos 0
+	irmovq stack, %rsp  	# Set up stack pointer
+	call main		# Execute main program
+	halt			# Terminate program 
+
+# Array of 2 elements
+	.align 8
+array:	
+	.quad 0x0000000000000aaa
+	.quad 0x0000000000000200
+	.quad 0x0000000000000000
+	.quad 0x0000000000000000
+	
+main:
+	irmovq array, %rcx
+	mrmovq 0(%rcx), %rdx
+	pushq %rdx
+	mrmovq 8(%rcx), %rdx
+	pushq %rdx
+	popq %rax
+	rmmovq %rax, 16(%rcx)
+	popq %rax
+	rmmovq %rax, 24(%rcx)
+	ret
+
+# Stack starts here and grows to lower addresses
+	.pos 0x200
+stack:

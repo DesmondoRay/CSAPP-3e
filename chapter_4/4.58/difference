@@ -1,0 +1,59 @@
+desmondo@Rays:~/Documents/CSAPP/chapter_4/4.58$ diff 4.58-pipe-1w.hcl ../sim/pipe/backup/pipe-1w.hcl
+160d159
+< 	D_icode == IPOPQ : IPOP2;
+173c172
+< 	  IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ, IPOP2 };
+---
+> 	  IOPQ, IJXX, ICALL, IRET, IPUSHQ, IPOPQ };
+186c185
+< 		     IIRMOVQ, IRMMOVQ, IMRMOVQ, IPOP2 };
+---
+> 		     IIRMOVQ, IRMMOVQ, IMRMOVQ };
+196d194
+< 	f_icode == IPOPQ : f_pc;
+209c207
+< 	D_icode in { IRET } : RRSP;
+---
+> 	D_icode in { IPOPQ, IRET } : RRSP;
+216c214
+< 	D_icode in { IPUSHQ, IPOPQ, ICALL, IRET, IPOP2 } : RRSP;
+---
+> 	D_icode in { IPUSHQ, IPOPQ, ICALL, IRET } : RRSP;
+229c227
+< 	D_icode in { IMRMOVQ, IPOP2 } : D_rA;
+---
+> 	D_icode in { IMRMOVQ, IPOPQ } : D_rA;
+260c258
+< 	E_icode in { ICALL, IPUSHQ, IPOP2 } : -8;
+---
+> 	E_icode in { ICALL, IPUSHQ } : -8;
+268c266
+< 		     IPUSHQ, IRET, IPOPQ, IPOP2 } : E_valB;
+---
+> 		     IPUSHQ, IRET, IPOPQ } : E_valB;
+297,298c295,296
+< 	M_icode in { IRMMOVQ, IPUSHQ, ICALL, IMRMOVQ, IPOP2 } : M_valE;
+< 	M_icode in { IRET } : M_valA;
+---
+> 	M_icode in { IRMMOVQ, IPUSHQ, ICALL, IMRMOVQ } : M_valE;
+> 	M_icode in { IPOPQ, IRET } : M_valA;
+303c301
+< bool mem_read = M_icode in { IMRMOVQ, IPOP2, IRET };
+---
+> bool mem_read = M_icode in { IMRMOVQ, IPOPQ, IRET };
+355c353
+< 	E_icode in { IMRMOVQ, IPOP2 } &&
+---
+> 	E_icode in { IMRMOVQ, IPOPQ } &&
+364c362
+< 	E_icode in { IMRMOVQ, IPOP2 } &&
+---
+> 	E_icode in { IMRMOVQ, IPOPQ } &&
+372c370
+< 	!(E_icode in { IMRMOVQ, IPOP2 } && E_dstM in { d_srcA, d_srcB }) &&
+---
+> 	!(E_icode in { IMRMOVQ, IPOPQ } && E_dstM in { d_srcA, d_srcB }) &&
+383c381
+< 	E_icode in { IMRMOVQ, IPOP2 } &&
+---
+> 	E_icode in { IMRMOVQ, IPOPQ } &&

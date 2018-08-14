@@ -1,0 +1,29 @@
+                            | # Execution begins at address 0 
+0x000:                      | 	.pos 0
+0x000: 30f40002000000000000 | 	irmovq stack, %rsp  	# Set up stack pointer
+0x00a: 803800000000000000   | 	call main		# Execute main program
+0x013: 00                   | 	halt			# Terminate program 
+                            | 
+                            | # Array of 2 elements
+0x018:                      | 	.align 8
+0x018:                      | array:	
+0x018: aa0a000000000000     | 	.quad 0x0000000000000aaa
+0x020: 0002000000000000     | 	.quad 0x0000000000000200
+0x028: 0000000000000000     | 	.quad 0x0000000000000000
+0x030: 0000000000000000     | 	.quad 0x0000000000000000
+                            | 	
+0x038:                      | main:
+0x038: 30f11800000000000000 | 	irmovq array, %rcx
+0x042: 50210000000000000000 | 	mrmovq 0(%rcx), %rdx
+0x04c: a02f                 | 	pushq %rdx
+0x04e: 50210800000000000000 | 	mrmovq 8(%rcx), %rdx
+0x058: a02f                 | 	pushq %rdx
+0x05a: b00f                 | 	popq %rax
+0x05c: 40011000000000000000 | 	rmmovq %rax, 16(%rcx)
+0x066: b00f                 | 	popq %rax
+0x068: 40011800000000000000 | 	rmmovq %rax, 24(%rcx)
+0x072: 90                   | 	ret
+                            | 
+                            | # Stack starts here and grows to lower addresses
+0x200:                      | 	.pos 0x200
+0x200:                      | stack:
