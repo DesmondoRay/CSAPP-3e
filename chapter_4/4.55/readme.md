@@ -11,8 +11,7 @@
 ```
 ubuntu:~/Documents/CSAPP/chapter_4/sim/pipe$ make clean
 ubuntu:~/Documents/CSAPP/chapter_4/sim/pipe$ make psim VERSION=nt
-```
-得到带有iaddq执行的pipe模拟器。  
+```  
 ### 测试模拟器  
 终端输入命令：  
 ```
