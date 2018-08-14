@@ -19,7 +19,7 @@ ubuntu:~/Documents/CSAPP/chapter_4/sim/pipe$ ./psim -g ../../4.48/48_bubble_sort
 ```  
 可打开GUI界面，运行后得到测试结果:
 
-#### pipe-nt-Processor  
+#### pipe-btfnt-Processor  
 ![pipe-nt-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.56/pipe-btfnt-Processor.png)  
 
 #### pipe-std-Processor（原版pipe模拟器）  
