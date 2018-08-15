@@ -12,5 +12,5 @@
 ### D
 因为关键路径上只有一个浮点加法运算。
 
-![homework-5.13-a]()
-![homework-5.13-a]()
+![homework-5.13-a](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_5/5.13/homework-5.13-a.jpg)  
+![homework-5.13-a](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_5/5.13/homework-5.13-b.jpg)  
