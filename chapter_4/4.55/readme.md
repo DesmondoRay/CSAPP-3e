@@ -23,4 +23,4 @@ ubuntu:~/Documents/CSAPP/chapter_4/sim/pipe$ ./psim -g ../../4.48/48_bubble_sort
 ![pipe-nt-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.55/pipe-nt-Processor.png)  
 
 #### pipe-std-Processor（原版pipe模拟器）  
-![pipe-nt-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.55/pipe-std-Processor.png)
+![pipe-std-Processor](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_4/4.55/pipe-std-Processor.png)
