@@ -26,8 +26,8 @@ foo6.c中定义的main是一个强(strong)符号，而bar6.c中定义的main是�
 所以使用```printf("0x%x\n", main);```语句打印0x55.  
 
 ## test 2 
-修改 bar6.c```printf("0x%x\n", main);```  
-改为bar6_1.c ```printf("0x%x\n", *(&main+1));```  
+修改 bar6.c: ```printf("0x%x\n", main);```  
+改为bar6_1.c: ```printf("0x%x\n", *(&main+1));```  
 output:  
 ```
 desmondo@Rays:~/Documents/CSAPP/chapter_7/homework_7.9$ gcc foo6.c bar6_1.c
@@ -36,8 +36,8 @@ desmondo@Rays:~/Documents/CSAPP/chapter_7/homework_7.9$ ./a.out
 ```
 
 ## test 3 
-修改 bar6.c```char main;```  
-改为 bar6_2.c ```int main;```   
+修改 bar6.c: ```char main;```  
+改为 bar6_2.c:  ```int main;```   
 output:  
 ```desmondo@Rays:~/Documents/CSAPP/chapter_7/homework_7.9$ gcc foo6.c bar6_2.c
 /usr/bin/ld: Warning: alignment 1 of symbol `main' in /tmp/ccQS2Jk5.o is smaller than 4 in /tmp/ccUubKls.o
