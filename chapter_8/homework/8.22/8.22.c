@@ -1,6 +1,6 @@
 /* homework 8.22 */
 
-#include "../code/csapp.h"
+#include "../../code/csapp.h"
 
 extern char ** environ;
 
@@ -14,7 +14,7 @@ int mysystem(char *command)
 		execve("/bin/sh", argv, environ);
 	}
 	
-	/* test 2 */
+	/* 传送SIGKILL信号给8.22_test2(一个无限循环的程序) */
 	if (!strcmp(command, "./8.22_test2"))
 		kill(pid, SIGKILL);
 	
