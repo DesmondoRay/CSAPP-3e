@@ -5,19 +5,10 @@
  */
 
 #include "../../code/csapp.h"
-#define MAXJOBS 10
+#include "jobs.h"
+#define MAXCMDLEN 50
 
-struct job{
-	int id;
-	char *name;
-};
-
-struct s_job_set {
-	int number; /* number of jobs */
-	struct job *jobs[MAXJOBS];
-};
-
-struct s_job_set *job_set;
+extern struct s_job_set *job_set;
 
 /* 初始化作业组 */
 void init_jobs()
@@ -32,8 +23,10 @@ int add_job(int pid, char *name)
 {
 	/* 创建新的作业 */
 	struct job *new_job = (struct job *) Malloc(sizeof(struct job));
+	char *buf = (char *) Malloc(MAXCMDLEN * sizeof(char));
+	strcpy(buf, name);
 	new_job->id = pid;
-	new_job->name = name;
+	new_job->name = buf;
 	/* 将新的作业添加到作业组 */
 	if (job_set->number == MAXJOBS) {
 		fprintf(stderr, "jobs more than %d\n", MAXJOBS);
@@ -62,14 +55,32 @@ int delete_job(int pid)
 	return 0;
 }
 
+/* 释放作业组内存, 退出shell时使用 */
+void free_job_set()
+{
+	int i;
+	for (i = 0; i < job_set->number; i++)
+		Free(job_set->jobs[i]);
+	
+	Free(job_set);
+}
+
 /* 打印作业组内的所有作业 */
 // ****** 注： "Running"需要修改，根据进程的状态修改打印"Running"或"Stopped"
 void print_jobs()
 {
 	int i;
+	if (job_set->number == 0)
+		printf("There is no job in background.\n");
 	for (i = 0; i < job_set->number; i++)
-		printf("[%d] %d %s\t%s\n", 
-			   i, job_set->jobs[i]->id, "Running", job_set->jobs[i]->name);
+		printf("[%d] %d %s\t%s", 
+			   i+1, job_set->jobs[i]->id, "Running", job_set->jobs[i]->name);
+}
+
+/* 根据索引，获取作业的pid */
+pid_t get_job_pid(int index)
+{
+	
 }
 
 /* test */
@@ -83,6 +94,7 @@ int main(void)
 	print_jobs();
 	delete_job(2);
 	print_jobs();
+	free_job_set();
 	return 0;
 }
 */
