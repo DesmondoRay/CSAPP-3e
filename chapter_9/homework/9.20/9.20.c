@@ -10,8 +10,6 @@
 #define FIRST (TIMES * 2 / 3)
 #define LAST (TIMES / 3)
 
-extern char *mem_brk;
-
 /* 测试标准C库的malloc */
 void test_malloc(int array[], size_t total_size)
 {
@@ -44,9 +42,10 @@ void test_mm_malloc(int array[], size_t total_size)
 {
 	int i;
 	void **ptr = malloc(TIMES * sizeof(void *));
-	void *temp = mm_malloc(1);
+	void *temp = mm_malloc(1); // 用于初始化，若不初始化，addr_start == 0；
 	mm_free(temp);
-	void *addr_start = mem_brk;
+	
+	void *addr_start = mem_sbrk(0);
 	clock_t time_start = clock();
 	for (i = 0; i < FIRST; i++)
 		ptr[i] = mm_malloc(array[i]);
@@ -56,7 +55,7 @@ void test_mm_malloc(int array[], size_t total_size)
 	}
 	for (i = FIRST; i < LAST; i++) 
 		ptr[i] = mm_malloc(array[i]);
-	void * addr_end = mem_brk;
+	void * addr_end = mem_sbrk(0);
 	
 	for (i = 1; i < FIRST; i+=2)
 		mm_free(ptr[i]);
@@ -98,7 +97,7 @@ run time(seconds): 0.020037
 malloc size(bytes): 2530491, heap size: 2588672
 */
 
-/* output: (TIMES = 75000)
+/* output: (TIMES = 75000, 需要修改memlib.c的MAX_HEAP为200MB)
 malloc: 
 run time(seconds): 0.016412
 malloc size(bytes): 24969908, heap size: 25681920

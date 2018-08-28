@@ -15,7 +15,7 @@
 #define MAX_HEAP (200*(1<<20))  /* 200 MB */
 
 static char *mem_heap;     /* Points to first byte of heap */ 
-char *mem_brk;      /* Points to last byte of heap plus 1 */
+static char *mem_brk;      /* Points to last byte of heap plus 1 */
 static char *mem_max_addr; /* Max legal heap addr plus 1*/ 
 
 /* 
