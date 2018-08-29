@@ -1,0 +1,16 @@
+desmondo@Rays:~/Documents/CSAPP/chapter_11/homework/11.9$ diff 11.9-tiny.c ../11.8/11.8-tiny.c
+153c153
+<     char filetype[MAXLINE], buf[MAXBUF];
+---
+>     char *srcp, filetype[MAXLINE], buf[MAXBUF];
+168,169c168,169
+< 	void *srcp = Malloc(filesize);
+<     Rio_readn(srcfd, srcp, filesize);
+---
+>     srcp = Mmap(0, filesize, PROT_READ, MAP_PRIVATE, srcfd, 0);
+>     Close(srcfd);
+171,172c171
+< 	Close(srcfd);
+< 	Free(srcp);
+---
+>     Munmap(srcp, filesize);
