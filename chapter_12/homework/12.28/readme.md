@@ -5,8 +5,8 @@
 ### case 1 
 ![case1](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_12/homework/12.28/case1.png)  
 ### case 2 
-![case2](https://github.com/DesmondoRay/CSAPP/tree/master/chapter_12/homework/12.28/case2.png)  
+![case2](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_12/homework/12.28/case2.png)  
 ### case 3 
-![case3](https://github.com/DesmondoRay/CSAPP/tree/master/chapter_12/homework/12.28/case3.png)  
+![case3](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_12/homework/12.28/case3.png)  
 ### case 4 
-![case4](https://github.com/DesmondoRay/CSAPP/tree/master/chapter_12/homework/12.28/case4.png)  
+![case4](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_12/homework/12.28/case4.png)  
