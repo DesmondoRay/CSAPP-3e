@@ -1,0 +1,39 @@
+desmondo@Rays:~/Documents/CSAPP/chapter_11/homework/11.11$ diff 11.11-tiny.c ../11.9/11.9-tiny.c
+10c10
+< void serve_static(int fd, char *filename, int filesize, int method);
+---
+> void serve_static(int fd, char *filename, int filesize);
+12c12
+< void serve_dynamic(int fd, char *filename, char *cgiargs, int method);
+---
+> void serve_dynamic(int fd, char *filename, char *cgiargs);
+57d56
+< 	int http_method;
+69,73c68
+< 	if (strcasecmp(method, "GET") == 0)
+< 		http_method = 0;
+< 	else if (strcasecmp(method, "HEAD") == 0)
+< 		http_method = 1;
+<     else {
+---
+>     if (strcasecmp(method, "GET")) {
+94c89
+< 		serve_static(fd, filename, sbuf.st_size, http_method);
+---
+> 		serve_static(fd, filename, sbuf.st_size);
+102c97
+< 		serve_dynamic(fd, filename, cgiargs, http_method);
+---
+> 		serve_dynamic(fd, filename, cgiargs);
+155c150
+< void serve_static(int fd, char *filename, int filesize, int method) 
+---
+> void serve_static(int fd, char *filename, int filesize) 
+170,172d164
+< 	
+< 	if (method == 1)
+< 		return;
+208c197
+< void serve_dynamic(int fd, char *filename, char *cgiargs, int method) 
+---
+> void serve_dynamic(int fd, char *filename, char *cgiargs)

@@ -5,11 +5,11 @@
 #include "csapp.h"
 
 void doit(int fd);
-void read_requesthdrs(rio_t *rp);
-int parse_uri(char *uri, char *filename, char *cgiargs);
-void serve_static(int fd, char *filename, int filesize);
+void read_requesthdrs(rio_t *rp, char *cgiargs, int method);
+int parse_uri(char *uri, char *filename, char *cgiargs, int method);
+void serve_static(int fd, char *filename, int filesize, int method);
 void get_filetype(char *filename, char *filetype);
-void serve_dynamic(int fd, char *filename, char *cgiargs);
+void serve_dynamic(int fd, char *filename, char *cgiargs, int method);
 void clienterror(int fd, char *cause, char *errnum, 
 		 char *shortmsg, char *longmsg);
 void handler(int sig);
@@ -54,6 +54,7 @@ void handler(int sig)
 void doit(int fd) 
 {
     int is_static;
+	int http_method;
     struct stat sbuf;
     char buf[MAXLINE], method[MAXLINE], uri[MAXLINE], version[MAXLINE];
     char filename[MAXLINE], cgiargs[MAXLINE];
@@ -65,15 +66,21 @@ void doit(int fd)
 	// printf("Request headers:\n");
     printf("%s", buf);
     sscanf(buf, "%s %s %s", method, uri, version);
-    if (strcasecmp(method, "GET")) {
+	if (strcasecmp(method, "GET") == 0)
+		http_method = 0;
+	else if (strcasecmp(method, "HEAD") == 0)
+		http_method = 1;
+	else if (strcasecmp(method, "POST") == 0)
+		http_method = 2;
+    else {
         clienterror(fd, method, "501", "Not Implemented",
                     "Tiny does not implement this method");
         return;
     }
-    read_requesthdrs(&rio);
+    read_requesthdrs(&rio, cgiargs, http_method);
 
     /* Parse URI from GET request */
-    is_static = parse_uri(uri, filename, cgiargs);
+    is_static = parse_uri(uri, filename, cgiargs, http_method);
     if (stat(filename, &sbuf) < 0) {
 		clienterror(fd, filename, "404", "Not found",
 					"Tiny couldn't find this file");
@@ -86,7 +93,7 @@ void doit(int fd)
 						"Tiny couldn't read the file");
 			return;
 		}
-		serve_static(fd, filename, sbuf.st_size);
+		serve_static(fd, filename, sbuf.st_size, http_method);
     }
     else { /* Serve dynamic content */
 		if (!(S_ISREG(sbuf.st_mode)) || !(S_IXUSR & sbuf.st_mode)) {
@@ -94,14 +101,14 @@ void doit(int fd)
 						"Tiny couldn't run the CGI program");
 			return;
 		}
-		serve_dynamic(fd, filename, cgiargs);
+		serve_dynamic(fd, filename, cgiargs, http_method);
     }
 }
 
 /*
  * read_requesthdrs - read HTTP request headers
  */
-void read_requesthdrs(rio_t *rp) 
+void read_requesthdrs(rio_t *rp, char *cgiargs, int method) 
 {
     char buf[MAXLINE];
 
@@ -111,6 +118,12 @@ void read_requesthdrs(rio_t *rp)
 		Rio_readlineb(rp, buf, MAXLINE);
 		printf("%s", buf);
     }
+	fflush(stdout);
+	
+	if (method == 2) { /* POST: 在消息体中读取参数*/
+		Rio_readnb(rp, buf, rp->rio_cnt);
+		strcpy(cgiargs, buf);
+	}
     return;
 }
 
@@ -118,7 +131,7 @@ void read_requesthdrs(rio_t *rp)
  * parse_uri - parse URI into filename and CGI args
  *             return 0 if dynamic content, 1 if static
  */
-int parse_uri(char *uri, char *filename, char *cgiargs) 
+int parse_uri(char *uri, char *filename, char *cgiargs, int method) 
 {
     char *ptr;
 
@@ -131,13 +144,15 @@ int parse_uri(char *uri, char *filename, char *cgiargs)
 		return 1;
     }
     else {  /* Dynamic content */
-		ptr = index(uri, '?');
-		if (ptr) {
-	    	strcpy(cgiargs, ptr+1);
-	    	*ptr = '\0';
+		if (method == 0) {
+			ptr = index(uri, '?');
+			if (ptr) {
+	    		strcpy(cgiargs, ptr+1);
+	    		*ptr = '\0';
+			}
+			else 
+	    		strcpy(cgiargs, "");
 		}
-		else 
-	    	strcpy(cgiargs, "");
 		strcpy(filename, ".");
 		strcat(filename, uri);
 		return 0;
@@ -147,7 +162,7 @@ int parse_uri(char *uri, char *filename, char *cgiargs)
 /*
  * serve_static - copy a file back to the client 
  */
-void serve_static(int fd, char *filename, int filesize) 
+void serve_static(int fd, char *filename, int filesize, int method) 
 {
     int srcfd;
     char filetype[MAXLINE], buf[MAXBUF];
@@ -162,6 +177,9 @@ void serve_static(int fd, char *filename, int filesize)
     Rio_writen(fd, buf, strlen(buf));
     printf("Response headers:\n");
     printf("%s", buf);
+	
+	if (method == 1)
+		return;
 
     /* Send response body to client */
     srcfd = Open(filename, O_RDONLY, 0);
@@ -197,7 +215,7 @@ void get_filetype(char *filename, char *filetype)
 /*
  * serve_dynamic - run a CGI program on behalf of the client
  */
-void serve_dynamic(int fd, char *filename, char *cgiargs) 
+void serve_dynamic(int fd, char *filename, char *cgiargs, int method) 
 {
     char buf[MAXLINE], *emptylist[] = { NULL };
 
