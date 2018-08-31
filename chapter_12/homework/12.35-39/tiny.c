@@ -61,7 +61,7 @@ void doit(int fd)
         return;
     }
     read_requesthdrs(&rio);
-
+	
     /* Parse URI from GET request */
     is_static = parse_uri(uri, filename, cgiargs);
     if (stat(filename, &sbuf) < 0) {
