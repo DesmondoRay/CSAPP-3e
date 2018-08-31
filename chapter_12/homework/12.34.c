@@ -37,8 +37,10 @@ int main(void)
 		}
 	}
 	
-	/* 使用clock()计算多线程运行时间会得到错误结果，
-	 * 如4线程得到的结果为: 4 * 真正运行的时间;
+	/* 使用clock()计算多线程运行时间会得到错误结果；如：
+	 * nthreads = 2, runtime = 8..
+	 * nthreads = 4, runtime = 16..
+	 * 而test_run_time.c程序中，runtime = 0.000498 
 	clock_t start = clock();
 	long **c = mul_matrix3(a, b);
 	clock_t end = clock();
