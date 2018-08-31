@@ -58,20 +58,22 @@ int main(int argc, char **argv)
                     port, MAXLINE, 0);
         printf("Accepted connection from (%s, %s)\n", hostname, port);
 		sbuf_insert(&sbuf, connfd);  /* Insert connfd in buffer */
-		/* 判断缓冲区是否已满或为空 */
+		/* 判断缓冲区是否已满 */
 		int val_slots, val_items;
 		sem_getvalue(&(sbuf.slots), &val_slots);
-		sem_getvalue(&(sbuf.items), &val_items);
+		//sem_getvalue(&(sbuf.items), &val_items);
 		if (val_slots == 0) {
 			puts("**************** val_slots *****************\n");  // 用于测试
 			nthreads *= 2;
 			create_threads();
 		}
+		/*
 		else if (val_items == 0) {
 			puts("**************** val_items *****************\n");  // 用于测试
 			if (nthreads > 1)
 				nthreads /= 2;
 		}
+		*/
 		printf("nthreads = %d, thread_num = %d \n", nthreads, thread_num); // 用于测试
     }
 }
@@ -83,7 +85,7 @@ void *thread(void *vargp)
 	while (1) {
 		int connfd = sbuf_remove(&sbuf);  /* Remove connfd from buffer */
 		doit(connfd);
-		sleep(5);  // 用于测试
+		sleep(10);  // 用于测试
 		Close(connfd);
 	}
 }
@@ -107,6 +109,15 @@ void *add_thread(void *vargp)
 	Pthread_detach(pthread_self());
 	int i = 0;
 	while (1) {
+		/* 判断缓冲区是否为空 */
+		int val_items;
+		sem_getvalue(&(sbuf.items), &val_items);
+		if (nthreads > 1 && val_items == 0) {
+			P(&mutex);
+			nthreads /= 2;
+			V(&mutex);
+		}
+		/* 判断当前线程的数量(thread_num)和动态调整的最大线程数(nthreads) */
 		P(&mutex);
 		if (thread_num > nthreads) {  /* 该操作需要在调用sbuf_remove()函数之前 */
 			thread_num--;
@@ -116,7 +127,7 @@ void *add_thread(void *vargp)
 		if (i) Pthread_cancel(pthread_self());
 		int connfd = sbuf_remove(&sbuf);  /* Remove connfd from buffer */
 		doit(connfd);
-		sleep(5);  // 用于测试
+		sleep(10);  // 用于测试
 		Close(connfd);
 	}
 }
