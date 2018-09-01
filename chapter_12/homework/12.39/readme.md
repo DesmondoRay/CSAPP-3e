@@ -2,7 +2,7 @@
 
 代理端口默认为3000  
 
-## A.
+## A. 主程序代码: proxy.c
 ### 1. 在浏览器打开代理的主页[127.0.0.1:3000](127.0.0.1:3000), 文件位置： source/proxy.html  
 ![proxy.html](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_12/homework/12.39/source/1.png)  
 ### 2. 输入一个服务器的请求，proxy.html将url请求转送到一个代理的url_handler程序，位置/source/cgi-bin/url_handler  
@@ -24,3 +24,4 @@
 ![4.3](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_12/homework/12.39/source/4.3.png)  
 
 ### B.
+可参考homework 12.37，代码见: proxy_thread.c

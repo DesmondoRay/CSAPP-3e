@@ -132,3 +132,4 @@ proxy=127.0.0.1%3A4000%2Fsource%2Fcgi-bin%2Fadder%3Ffirst%3D100%26last%3D20
 127.0.0.1:4000/
 127.0.0.1:4000/source/adder.html
 127.0.0.1:4000/source/adder.html
+127.0.0.1:4000/source/cgi-bin/adder?first=100&last=20
