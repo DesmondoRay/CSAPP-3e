@@ -4,7 +4,7 @@
  * 将结果与你使用机器的浮点运算得到的结果相比较。
  */
 
-// 未考虑舍入问题
+// 未考虑舍入问题，正确答案见 p97_correct.c
 
 #include <stdio.h>
 #include <assert.h>
