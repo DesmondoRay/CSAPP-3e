@@ -6,5 +6,6 @@
 
 ### 参考
 - [CS:APP3e](http://csapp.cs.cmu.edu/3e/students.html)  
-- [CSAPP-3e-Solutions](https://dreamanddead.gitbooks.io/csapp-3e-solutions)
-- [第四章: 安装Tcl和Tk]https://www.cnblogs.com/hrhguanli/p/4594724.html）
+- [CSAPP-3e-Solutions](https://dreamanddead.gitbooks.io/csapp-3e-solutions)  
+- [mofaph/csapp(第2版)](https://github.com/mofaph/csapp)
+- [第四章: 安装Tcl和Tk](https://www.cnblogs.com/hrhguanli/p/4594724.html)
