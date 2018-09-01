@@ -22,8 +22,9 @@ int hex2num(char c);
 int main(void)
 {
 	char *p, *host, *port;
-	char url[MAXLINE], content[MAXLINE], uri[MAXLINE], buf[MAXLINE];
+	char url[MAXLINE], uri[MAXLINE], buf[MAXLINE], content[MAXLINE];
 	int connfd;
+	int read_length;
 	rio_t rio;
 	
 	if ((p = getenv("QUERY_STRING")) != NULL) {
@@ -31,21 +32,19 @@ int main(void)
 		strcpy(url, temp+1);
 	}
 	/* 将url转换成可识别的字符串 */
-	char temp[MAXLINE];
-	url_decode(url, temp);
-	strcpy(url, temp);
+	url_decode(url, buf);
+	strcpy(url, buf);
 	/* 打开hosts文件，并检查url */
 	FILE *hosts_fp, *log_fp;
 	if ((hosts_fp = fopen("source/etc/hosts", "r")) == NULL) {
 		fprintf(stderr, "Can't open file: hosts\n");
 		exit(0);
 	}
-	char read_temp[MAXLINE];
-	while ((fgets(read_temp, MAXLINE, hosts_fp)) != NULL) {
-		if (strstr(url, read_temp)) {
+	while ((fgets(buf, MAXLINE, hosts_fp)) != NULL) {
+		if (strstr(url, buf)) {
 			/* 给浏览器返回错误提示 */
 			strcpy(content, "This site can not be reached.\r\n<p>");
-			strcat(content, read_temp);
+			strcat(content, buf);
 			strcat(content, " refused to connect.\r\n<p>");
 			printf("Connection: close\r\n");
 			printf("Content-length: %d\r\n", (int)strlen(content));
@@ -86,13 +85,8 @@ int main(void)
 	/* Generate the HTTP response */
 	Rio_readinitb(&rio, connfd);
 	content[0] = '\0';
-	while (Rio_readlineb(&rio, buf, MAXLINE) != 0) {
-		if (strstr(buf, "Content-type"))
-			sprintf(content, "%s%s\r\n", content, buf);
-		else
-			sprintf(content, "%s%s", content, buf);
-	}
-	printf("%s", content);
+	 while ((read_length = Rio_readlineb(&rio, buf, MAXLINE)) != 0)
+      Rio_writen(1, buf, read_length);
 	fflush(stdout);
 	
 	return 0;
