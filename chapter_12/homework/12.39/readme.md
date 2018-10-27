@@ -9,7 +9,7 @@
 ![4.1](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_12/homework/12.39/source/4.1.png)  
 图为代理程序服务器上接受的请求信息：  
 ![url_handler](https://github.com/DesmondoRay/CSAPP/blob/master/chapter_12/homework/12.39/source/2.png)
-### 3. url_handler程序将url请求转换成可识别的字符串————调用url_handler.c中url_decode()函数  
+### 3. url_handler程序将url请求转换成可识别的字符串——调用url_handler.c中url_decode()函数  
 
 ### 4. url_handler程序检查url请求是否在过滤文件中，url过滤文件位置: /source/etc/hosts  
 #### 4.1 检查通过:
