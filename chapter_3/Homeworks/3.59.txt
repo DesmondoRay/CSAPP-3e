@@ -36,4 +36,4 @@
 # 即：
 
     x * y = x' * y' + (sign_x * y + sign_y * x) * 2^w
-# 所以第10行才会将%rdx(高64位) 加上 (sign_x * y + high_y * x)
+# 所以第10行才会将%rdx(高64位) 加上 (sign_x * y + sign_y * x)
