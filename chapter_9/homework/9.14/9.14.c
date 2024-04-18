@@ -15,7 +15,7 @@ int main(void)
 	fd = Open("hello.txt", O_RDWR, 0);
 	fstat(fd, &st);
 	
-	bufp = Mmap(NULL, st.st_size, PROT_WRITE, MAP_PRIVATE, fd, 0);
+	bufp = Mmap(NULL, st.st_size, PROT_WRITE, MAP_SHARED, fd, 0);
 	*bufp = 'J';
 	
 	Write(1, bufp, st.st_size);
